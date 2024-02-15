@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="colombia_report_notas_de_contabilidad">
+            <t t-call="credport_quanamco.external_layout_colombia_report">
+                <t t-set="o" t-value="o.with_context(lang=lang)" />
+                <br />
+                <div class="page" style="font-size: 13px;">
+                    <style>
+                        .table_custom > thead > tr > th,
+                        .table_custom > tbody > tr > th,
+                        .table_custom > tfoot > tr > th,
+                        .table_custom > thead > tr > td,
+                        .table_custom > tbody > tr > td,
+                        .table_custom > tfoot > tr > td {
+                        padding: 8px;
+                        line-height: 1.42857143;
+                        vertical-align: top;
+                        }
+                        .table_tbody_tr_td_div > tbody > tr > td > div,
+                        .table_tbody_tr_td_div > tbody > tr > td > b > div{
+                        padding: 8px;
+                        }
+                    </style>
+                    <table name="invoice_line_table"
+                        class="table_custom">
+
+                        <colgroup>
+                            <col span="1" style="width: 10%;" />
+                            <col span="1" style="width: 11%;" />
+                            <col span="1" style="width: 14%;" />
+                            <col span="1" style="width: 15%;" />
+                            <col span="1" style="width: 11%;" />
+                            <col span="1" style="width: 9%;" />
+                            <col span="1" style="width: 9%;" />
+                        </colgroup>
+
+                        <thead class="text-center">
+                            <tr style="border: 1px solid #000000; padding: 4px;">
+                                <t t-set="colspan" t-value="6" />
+                                <th style="color:#000000;background: silver;">Cuenta</th>
+                                <th name="th_description"
+                                    style="color:#000000;background: silver;border: 1px solid #000000;">
+                                    <span>Nombre de cuenta</span>
+                                </th>
+                                <th
+                                    style="color:#000000;background: silver;border: 1px solid #000000;">
+                                    <span>Asociado</span>
+                                </th>
+                                <th
+                                    style="color:#000000;background: silver;border: 1px solid #000000;">
+                                    <span>Descripcíon</span>
+                                </th>
+                                <th class="text-left"
+                                    style="color:#000000;background: silver;border: 1px solid #000000;">
+                                    <span>Cuenta analítica</span>
+                                </th>
+                                <th
+                                    style="color:#000000;background: silver;border: 1px solid #000000;">
+                                    <span>Debe</span>
+                                </th>
+                                <th
+                                    style="color:#000000;background: silver;border: 1px solid #000000;">
+                                    <span>Haber</span>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody style="border: 1px solid #000000; padding: 4px;">
+                            <t t-foreach="o.line_ids" t-as="line">
+                                <tr
+                                    t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                    <t name="account_invoice_line_accountable">
+                                        <td style="border: 1px solid #000000;">
+                                            <span t-field="line.account_id.code" />
+                                        </td>
+                                        <td name="account_invoice_line_name"
+                                            style="border: 1px solid #000000;">
+                                            <span t-field="line.account_id.name"
+                                                t-options="{'widget': 'text'}" />
+                                        </td>
+                                        <td style="border: 1px solid #000000;">
+                                            <t t-if="o.move_type !='entry'">
+                                                <span t-field="o.partner_id.name" />
+                                            </t>
+                                            <t t-if="o.move_type =='entry'">
+                                                <span t-field="line.partner_id.name" />
+                                            </t>
+                                        </td>
+                                        <td style="border: 1px solid #000000;">
+                                            <span t-field="line.name" />
+                                        </td>
+                                        <td
+                                            t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"
+                                            style="border: 1px solid #000000;">
+                                        </td>
+                                        <td style="border: 1px solid #000000;" class="text-right">
+                                            <span t-field="line.debit" />
+                                        </td>
+                                        <td style="border: 1px solid #000000;" class="text-right">
+                                            <span t-field="line.credit" />
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tfoot style="font-size: 13px;">
+                                <tr style="border: 1px solid #000000;">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>TOTAL </td>
+                                    <td class="text-center">
+                                        <span t-esc="o.amount_debits"
+                                            t-options='{
+                                                "widget": "monetary", 
+                                                "display_currency": o.currency_id}
+                                            '/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="o.amount_credits"
+                                            t-options='{
+                                                "widget": "monetary", 
+                                                "display_currency": o.currency_id
+                                            }'/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="colombia_report_with_notas_de_contabilidad"
+            inherit_id="credport_quanamco.colombia_report_notas_de_contabilidad"
+            primary="True">
+        </template>
+
+        <template id="colombia_report_report_invoice">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang"
+                        t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang" />
+                    <t t-call="credport_quanamco.colombia_report" t-lang="lang" />
+                </t>
+            </t>
+        </template>
+
+        <template id="colombia_report_report_notas_de_contabilidad">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang"
+                        t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang" />
+                    <t t-call="credport_quanamco.colombia_report_with_notas_de_contabilidad"
+                        t-lang="lang" />
+                </t>
+            </t>
+        </template>
+
+        <!--We
+        need to create the following empty report template for the action report
+            "action_account_original_vendor_bill" to work. The action is merging the
+            original vendor bill(s) that were used to create the vendor bill(s) into one PDF. -->
+        <template id="report_original_vendor_bill">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="article" t-att-data-oe-model="o and o._name"
+                        t-att-data-oe-id="o and o.id"
+                        t-att-data-oe-lang="o and o.env.context.get('lang')"></div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

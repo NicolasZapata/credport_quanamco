@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="external_layout_colombia_report">
+        <t t-if="not o" t-set="o" t-value="doc" />
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id" />
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()" />
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company" />
+            </t>
+        </t>
+        <t t-call="credport_quanamco.external_layout_standard_colombia_report">
+            <t t-raw="0" />
+        </t>
+    </template>
+    <template id="external_layout_standard_colombia_report">
+        <t t-set="o" t-value="o.with_context(lang=lang)" />
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="row">
+                <div class="col-4">
+                    <div style="padding: 2px;">
+                        <img t-if="o.company_id.logo"
+                            t-att-src="image_data_uri(o.company_id.logo)"
+                            width="210px" height="90" />
+                    </div>
+                    <div>
+                        <t t-if="o.company_id.name">
+                            <h5>
+                                <t>
+                                    <t t-esc="o.company_id.partner_id.name" />
+                                </t>
+                            </h5>
+                        </t>
+                    </div>
+                    <div style="font-size: 13px;">
+                        <t t-if="o.company_id.partner_id.vat">
+                            <b>NIT:</b>
+                            <t t-esc="o.company_id.partner_id.vat" />
+                        </t>
+                    </div>
+                    <div style="font-size: 13px;">
+                        <t t-if="o.company_id.partner_id.street">
+                            <t t-esc="o.company_id.partner_id.street " />
+                        </t>
+                        <t t-if="o.company_id.partner_id.state_id"> -<t
+                                t-esc="o.company_id.partner_id.state_id.name" />
+                        </t>
+                        <t t-if="o.company_id.partner_id.country_id"> -<t
+                                t-esc="o.company_id.partner_id.country_id.name" />
+                            <br />
+                        </t>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="col-12">
+                <div>
+                    <div class="text-center">
+                        <h5>
+                            <span>CONTABILIZACIÓN </span>
+                            <t t-if="o.name">
+                                <t t-esc="o.name" />
+                            </t>
+                            <t t-else="">
+                                <t t-esc="o.ref" />
+                            </t>
+                            <br />
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row" style="padding-bottom: 5px; padding-left:15px;">
+                <div class="col-12"
+                    style="padding-left: 2px; border: 2px solid #FFFFFF !important;border-radius: 10px;">
+                    <table width="100%">
+                        <colgroup>
+                            <col span="1" style="width: 20%;" />
+                        </colgroup>
+                        <tbody>
+                            <td class="text-left" style="border: 1px solid #FFFFFF !important;">
+                                <span>
+                                    Referencia :
+                                </span>
+                                <br />
+                                <span>
+                                    <t t-if="o.move_type =='out_invoice'">
+                                        Cliente :
+                                    </t>
+                                    <t t-elif="o.move_type =='in_invoice'">
+                                        Proveedor :
+                                    </t>
+                                    <t t-else="">
+                                        Tercero :
+                                    </t>
+                                </span>
+                                <br />
+                                <span>
+                                    Diario :
+                                </span>
+                                <br />
+                                <span>
+                                    Tipo de Documento:
+                                </span>
+                                <br />
+                                <span>
+                                    Fecha Contable:
+                                </span>
+                                <br />
+                                <span>
+                                    Fecha de Vencimiento:
+                                </span>
+                                <br />
+                                <span>
+                                    Moneda:
+                                </span>
+                                <t t-if="o.exchange_date">
+                                    <br />
+                                    <span>
+                                        Fecha Tasa de Cambio:
+                                    </span>
+                                </t>
+                                <t t-if="o.exchange_rate">
+                                    <br />
+                                    <span>
+                                        Tasa de Cambio:
+                                    </span>
+                                </t>
+                            </td>
+                            <td class="text-left" style="border: 1px solid #FFFFFF !important;">
+                                <span>
+                                    <t t-if="o.ref">
+                                        <t t-esc="o.ref" />
+                                    </t>
+                                    <t t-else="">
+                                        <t t-esc="o.name" />
+                                    </t>
+                                </span>
+                                <br />
+                                <span>
+                                    <t t-esc="o.partner_id.name" />
+                                </span>
+                                <br />
+                                <span>
+                                    <t t-esc="o.journal_id.name" />
+                                </span>
+                                <br />
+                                <span>
+                                    <t t-if="o.move_type == 'entry'">
+                                        Asiento contable
+                                    </t>
+                                    <t t-if="o.move_type == 'out_invoice'">
+                                        Factura de cliente
+                                    </t>
+                                    <t t-if="o.move_type == 'out_refund'">
+                                        Factura rectificativa de cliente
+                                    </t>
+                                    <t t-if="o.move_type == 'in_invoice'">
+                                        Factura de proveedor
+                                    </t>
+                                    <t t-if="o.move_type == 'in_refund'">
+                                        Factura rectificativa de proveedor
+                                    </t>
+                                    <t t-if="o.move_type == 'out_receipt'">
+                                        Recibo de ventas
+                                    </t>
+                                    <t t-if="o.move_type == 'in_receipt'">
+                                        Recibo de compra
+                                    </t>
+                                </span>
+                                <br />
+                                <span>
+                                    <t t-esc="o.date.strftime('%d/%m/%Y')" />
+                                </span>
+                                <br />
+                                <span>
+                                    <t t-if="o.invoice_date_due">
+                                        <t t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                                    </t>
+                                </span>
+                                <br />
+                                <span>
+                                    <t t-esc="o.currency_id.name" />
+                                </span>
+                                <span t-if="o.exchange_date">
+                                    <br />
+                                    <t t-esc="o.exchange_date.strftime('%d/%m/%Y')" />
+                                </span>
+
+                                <span t-if="o.exchange_rate">
+                                    <br />
+                                    <t t-esc="'{:0,.2f}'.format(o.exchange_rate)" />
+                                </span>
+                            </td>
+                            <td class="text-left" style="border: 1px solid #FFFFFF !important;">
+                                <span>
+                                    Elaboró :
+                                </span>
+                                <br />
+                                <span>
+                                    Confirmó :
+                                </span>
+                            </td>
+                            <td class="text-left" style="border: 1px solid #FFFFFF !important;">
+                                <span>
+                                    <t t-esc="o.user_id.name" />
+                                </span>
+                                <br />
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+            t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+            t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout" />
+            <t t-raw="0" />
+        </div>
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+            <div class="text-center ">
+                <div name="financial_infos">
+                    <span t-field="company.report_footer" />
+                </div>
+                <div t-if="report_type == 'pdf'" class="text-muted"> Page: <span class="page" /> / <span
+                        class="topage" />
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- <template id="minimal_layout" inherit_id="web.minimal_layout"
+    name="carvajal_minimal_layout">
+        <xpath expr="//script[@t-if='subst']" position="replace">
+            <t t-if="subst is True">
+                <script>
+                    function subst() {
+                    var vars = {};
+                    var x = document.location.search.substring(1).split('&amp;');
+                    for (var i in x) {
+                    var z = x[i].split('=', 2);
+                    vars[z[0]] = unescape(z[1]);
+                    }
+                    var x = ['sitepage', 'sitepages', 'section', 'subsection', 'subsubsection'];
+                    var z = {'sitepage': 'page', 'sitepages': 'topage'};
+                    for (var i in x) {
+                    var y = document.getElementsByClassName(z[x[i]] || x[i])
+                    for (var j=0; j&lt;y.length; ++j)
+                    y[j].textContent = vars[x[i]];
+                    }
+
+                    var index = vars['webpage'].split('.', 4)[3];
+                    var header = document.getElementById('minimal_layout_report_headers');
+                    if(header !== null){
+                    var companyHeader = header.children[index];
+                    header.textContent = '';
+                    header.appendChild(companyHeader);
+                    }
+                    var footer = document.getElementById('minimal_layout_report_footers');
+                    if(footer !== null){
+                    var companyFooter = footer.children[index];
+                    footer.textContent = '';
+                    footer.appendChild(companyFooter);
+                    }
+                    }
+                </script>
+            </t>
+        </xpath>
+    </template> -->
+
+</odoo>

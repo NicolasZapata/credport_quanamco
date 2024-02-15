@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_aer_caribe_co_payment_receipt_document" inherit_id="account.report_payment_receipt_document">
+        <xpath expr="//h3[1]" position="replace">
+            <h3>
+                <t t-if="o.partner_type == 'customer'">
+                    <strong>Recibo de caja: </strong>
+                </t>
+                <t t-if="o.partner_type == 'supplier'">
+                    <strong>Comprobante de egreso: </strong>
+                </t>
+                <strong><span t-field="o.name"/></strong>
+            </h3>
+        </xpath>
+        <xpath expr="//div[@t-if='o.date']" position="after">
+            <div class="col-6" style="margin-bottom: 5px;">
+                <strong>Método de Pago: </strong>
+                <t t-if="o.partner_type == 'customer'">Recibir</t>
+                <t t-if="o.partner_type == 'supplier'">Enviar</t>
+            </div>
+        </xpath>
+        <xpath expr="//div[@t-if='o.partner_type']/parent::div" position="before">
+            <div class="row mb64" style="margin-bottom: 5px;">
+                <div class="col-6" t-if="o.partner_id and o.partner_id.vat">
+                    <strong>NIT: </strong><span t-field="o.partner_id.vat"/>
+                </div>
+                <div class="col-6" t-if="o.currency_id">
+                    <strong>Moneda: </strong><span t-field="o.currency_id"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@t-if='o.payment_method_id']" position="replace">
+            <div class="col-6" t-if="o.currency_id != env.company.currency_id">
+                <div t-if="o.exchange_date">
+                    <strong>Fecha de cambio: </strong><span t-field="o.exchange_date"/>
+                </div>
+                <div t-if="o.exchange_rate">
+                    <strong>Tipo de cambio: </strong><span t-field="o.exchange_rate"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@t-if='o.amount']/parent::div" position="replace">
+            <div class="row mb64" style="margin-bottom: 10px;">
+                <div class="col-6" t-if="o.ref">
+                    <strong>Memo: </strong><span t-field="o.ref"/>
+                </div>
+                <div class="col-6" t-if="o.multipayment_id">
+                    <strong>Multi pago N°: </strong><span t-field="o.multipayment_id"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[@t-if='o.partner_type']/parent::div" position="after">
+            <div class="row mb64" style="margin-bottom: 5px;">
+                <div class="col-6" t-if="o.journal_id">
+                    <strong>Diario: </strong><span t-field="o.journal_id"/>
+                </div>
+                <div class="col-6" t-if="o.amount">
+                    <strong>Importe de pago: </strong>
+                    <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+</odoo>

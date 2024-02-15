@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.module.category" id="quanamco_security_groups">
+            <field name="name">Quanamco</field>
+        </record>
+
+        <record id="group_modify_analytic_accounts" model="res.groups">
+            <field name="name">Crear y/o modificar cuentas analíticas</field>
+            <field name="category_id" ref="credport_quanamco.quanamco_security_groups"/>
+            <field name="implied_ids" eval="[(4, ref('analytic.group_analytic_accounting'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_modify_analytic_tags" model="res.groups">
+            <field name="name">Crear y/o modificar etiquetas analíticas</field>
+            <field name="category_id" ref="credport_quanamco.quanamco_security_groups"/>
+            <field name="implied_ids" eval="[(4, ref('analytic.group_analytic_tags'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_modify_products" model="res.groups">
+            <field name="name">Crear y/o modificar productos o servicios</field>
+            <field name="category_id" ref="credport_quanamco.quanamco_security_groups"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_select_multi_company" model="res.groups">
+            <field name="name">Seleccionar Multiples Compañias</field>
+            <field name="category_id" ref="credport_quanamco.quanamco_security_groups"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_exchange_rate_accounting_entries" model="res.groups">
+            <field name="name">Tipo de cambio en los asientos contables</field>
+            <field name="category_id" ref="credport_quanamco.quanamco_security_groups"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- <record id="certification_retention_employee_comp_rule" model="ir.rule">
+            <field name="name">Certificado de Retenciones a Empleados multi-company</field>
+            <field name="model_id" ref="model_certification_retention_employee"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record> -->
+
+    </data>
+</odoo>

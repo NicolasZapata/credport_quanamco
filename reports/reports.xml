@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- <record id="action_report_account_move" model="ir.actions.report">
+            <field name="name">Account Notes</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">credport_quanamco.colombia_report_report_notas_de_contabilidad</field>
+            <field name="report_file">credport_quanamco.colombia_report_report_notas_de_contabilidad</field>
+            <field name="print_report_name">(object._get_report_base_filename_custom())</field>
+            <field name="paperformat_id">credport_quanamco.paperformat_creport_notas</field>
+            <field name="groups_id">account.group_account_invoice</field>
+            <field name="binding_model_id" ref="model_account_move"/>
+            <field name="binding_type">report</field>
+        </record> -->
+
+        <report
+            id="custom_report_notas_de_contabilidad"
+            model="account.move"
+            string="Account Notes"
+            report_type="qweb-pdf"
+            name="credport_quanamco.colombia_report_report_notas_de_contabilidad"
+            file="credport_quanamco.colombia_report_report_notas_de_contabilidad"
+            attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+            print_report_name="(object._get_report_base_filename_custom())"
+            groups="account.group_account_invoice"
+            paperformat="credport_quanamco.paperformat_creport_notas"
+        />
+
+        <!-- <record id="action_report_purchase_order_custom" model="ir.actions.report">
+            <field name="name">Orden de Servicio</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">credport_quanamco.report_purchaseorder_custom_service_order</field>
+            <field name="report_file">credport_quanamco.report_purchaseorder_custom_service_order</field>
+            <field name="print_report_name">'REFERENCIA SERVICE ORDER'</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="credport_quanamco.paperformat_creport_purchase"/>
+        </record>
+
+
+        <record id="action_report_purchase_service_order_custom" model="ir.actions.report">
+            <field name="name">Orden de Compra</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">credport_quanamco.report_purchaseorder_custom</field>
+            <field name="report_file">credport_quanamco.report_purchaseorder_custom</field>
+            <field name="print_report_name">
+                (object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or
+                'Purchase Order - %s' % (object.name))
+            </field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="credport_quanamco.paperformat_creport_purchase"/>
+        </record> -->
+        <!-- QWeb Reports -->
+        <!-- <report
+                id="custom_report"
+                model="account.move"
+                string="Custom AerCaribe"
+                report_type="qweb-pdf"
+                name="credport_quanamco.colombia_report_report_invoice_with_payments"
+                file="credport_quanamco.colombia_report_report_invoice_with_payments"
+                attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+                print_report_name="(object._get_report_base_filename())"
+                groups="account.group_account_invoice"
+                paperformat="credport_quanamco.paperformat_creport"
+        /> -->
+
+        <!-- <report
+                id="contingency_bill"
+                model="account.move"
+                string="Factura de Contingencia"
+                report_type="qweb-pdf"
+                name="credport_quanamco.colombia_report_invoice_with_payments_contingency_bill"
+                file="credport_quanamco.colombia_report_invoice_with_payments_contingency_bill"
+                attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+                print_report_name="(object._get_report_base_filename())"
+                groups="account.group_account_invoice"
+                paperformat="credport_quanamco.paperformat_creport_contingency_bill"
+        /> -->
+
+        <!-- <record id="report_purchase_requisition_custom" model="ir.actions.report">
+            <field name="name">Solicitud de requisición</field>
+            <field name="model">material.purchase.requisition</field>
+            <field name="report_type">qweb-pdf</field>
+            <field
+        name="report_name">credport_quanamco.colombia_report_invoice_with_payments_requisitions</field>
+            <field
+        name="report_file">credport_quanamco.colombia_report_invoice_with_payments_requisitions</field>
+            <field name="binding_model_id"
+        ref="material_purchase_requisitions.model_material_purchase_requisition"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="credport_quanamco.paperformat_creport_contingency_bill"/>
+
+        </record> -->
+    </data>
+</odoo>
