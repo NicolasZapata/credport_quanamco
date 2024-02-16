@@ -9,7 +9,6 @@
   'category': 'credport, account, invoicing',
   'depends': [
     'account',
-    # 'l10n_co_data',
   ],
   'data': [
     # Security
@@ -23,8 +22,6 @@
     'reports/reports.xml',
     'reports/account_notes.xml',
     'reports/contingency_bill.xml',
-    'reports/purchase_service_order_templates.xml',
-    'reports/report_payment_receipt_templates.xml',
     'reports/requisitions.xml',
   ],
   'demo': [

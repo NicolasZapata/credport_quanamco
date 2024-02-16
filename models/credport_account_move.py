@@ -28,7 +28,6 @@ class AccountMove(models.Model):
         "credit total",
          compute="_amount_debit_credit"
     )
-    payment_state = fields.Selection([("cancel", "Cancelado(a)")])
     # is_accounting_entries = fields.Boolean(related="purchase_id.is_accounting_entries")
 
     # Para controlar la consulta de estado
@@ -64,7 +63,7 @@ class AccountMove(models.Model):
             .search(
                 [
                     ("state", "=", "posted"),
-                    ("l10n_co_edi_invoice_status", "=", "processing"),
+                    # ("l10n_co_edi_invoice_status", "=", "processing"),
                     ("move_type", "in", ["out_invoice", "out_refund"]),
                     # ("carbajal_last_update", "<", datetime.now() - timedelta(hours=12)),
                 ],
