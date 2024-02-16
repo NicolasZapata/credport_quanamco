@@ -18,7 +18,7 @@
         <report
             id="custom_report_notas_de_contabilidad"
             model="account.move"
-            string="Account Notes"
+            string="Journal Entries"
             report_type="qweb-pdf"
             name="credport_quanamco.colombia_report_report_notas_de_contabilidad"
             file="credport_quanamco.colombia_report_report_notas_de_contabilidad"

@@ -20,7 +20,7 @@
     'reports/external_layout.xml',
     'reports/paperformat.xml',
     'reports/reports.xml',
-    'reports/account_notes.xml',
+    'reports/journal_entries.xml',
     'reports/contingency_bill.xml',
     'reports/requisitions.xml',
   ],
