@@ -1,0 +1,29 @@
+/target/
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### Exclude IDE Files ###
+/__pycache__/
+*.pyc
+.vscode
+
+# various virtualenv
+/bin/
+/include/
+/lib/
+/man/
+/share/
+/src/
+*.mo
+
+

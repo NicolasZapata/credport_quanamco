@@ -12,7 +12,7 @@
   ],
   'data': [
     # Security
-    'security/ir.model.access.csv',
+    # 'security/ir.model.access.csv',
     # Views
     'views/credport_account_move_views.xml',
     # Reports
